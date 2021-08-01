@@ -2,29 +2,13 @@ import dribblecodeTwitter
 from io import BytesIO
 from picamera import PiCamera
 import time
+from gpiozero import Button
 
 
-class VolumeMonitor:
-    def __init__(self):
-        self.volumes = []
-
-    def update(self):
-        self.volumes.append(self.get_volume())
-
-
-    def get_volume(self) -> float:
-        # temp
-        return 0.0
-
-    def check_for_volume_spikes(self) -> bool:
-        # some maths stuff to check volume spikes
-        # return true if there has been a new volume spike
-        # temp ( ͡° ͜ʖ ͡°) ( ͡° ͜ʖ ͡°) ( ͡° ͜ʖ ͡°) ( ͡° ͜ʖ ͡°)
-        return True
 
 
 class CamModule:
-    def __init__(self):
+    def init(self):
         self.camera = PiCamera()
         self.camera.resolution = (1024, 768)
 
@@ -38,9 +22,9 @@ class CamModule:
         return fp
 
 
-if __name__ == "__main__":
+if name == "main":
 
-    vm = VolumeMonitor()
+    microphone = Button(2)
     cm = CamModue()
     t = dribblecodeTwitter.Twitter()
 
@@ -48,12 +32,13 @@ if __name__ == "__main__":
 
     while runAgain:
 
-        if vm.check_for_volume_spikes():
+        if microphone.is_pressed():
             fp = cm.take_photo()
             t.do_funny(fp)
 
             # temp
             runAgain = False
 
+            time.sleep(5)
         time.sleep(0.25)
 
