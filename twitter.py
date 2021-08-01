@@ -35,9 +35,6 @@ class RandomModule():
                     else:
                         sent=sent.replace("^a","a",1)
                     #print(sent)
-                    
-
-
 
                 return sent
 

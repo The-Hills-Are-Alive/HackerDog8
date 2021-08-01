@@ -1,44 +1,43 @@
-import dribblecodeTwitter
+import twitter
 from io import BytesIO
 from picamera import PiCamera
 import time
 from gpiozero import Button
 
 
-
-
 class CamModule:
-    def init(self):
+    def __init__(self):
         self.camera = PiCamera()
         self.camera.resolution = (1024, 768)
 
-    def take_photo() -> str:
+    def take_photo(self) -> str:
         _bytes = BytesIO()
         self.camera.start_preview()
         time.sleep(2)
 
         fp = "doggo.jpg"
-        self.camera.capture()
+        self.camera.capture(fp)
         return fp
 
 
-if name == "main":
+if __name__ == "__main__":
+    print("starting doggo tweeter")
 
     microphone = Button(2)
-    cm = CamModue()
-    t = dribblecodeTwitter.Twitter()
+    cm = CamModule()
+    t = twitter.Twitter()
+
+    print("set up objects")
 
     runAgain = True
 
     while runAgain:
-
-        if microphone.is_pressed():
+        if not microphone.is_pressed:
             fp = cm.take_photo()
             t.do_funny(fp)
 
-            # temp
-            runAgain = False
-
             time.sleep(5)
-        time.sleep(0.25)
+        else:
+            print("nothing")
+            time.sleep(0.1)
 
